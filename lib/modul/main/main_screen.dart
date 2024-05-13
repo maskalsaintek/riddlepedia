@@ -1,10 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:riddlepedia/modul/user/login/login_screen.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreen();
+}
+
+class _MainScreen extends State<MainScreen> {
+
+  String _screenTitle = "Riddlepedia";
+  final _tabTitle = ["Home", "My Riddle", "Contest", "Login"];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _screenTitle = _tabTitle[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +29,7 @@ class MainScreen extends StatelessWidget {
       length: 4,
       child: Scaffold(
           appBar: AppBar(
-            title: const Text('Riddlepedia'),
+            title: Text(_screenTitle),
             backgroundColor: AppColor.mainColor,
             foregroundColor: Colors.white,
             actions: [
@@ -26,30 +42,36 @@ class MainScreen extends StatelessWidget {
           ),
           bottomNavigationBar: Container(
             color: AppColor.mainColor,
-            child: const TabBar(
+            child: TabBar(
               labelColor: Colors.white,
               labelPadding: EdgeInsets.zero,
               unselectedLabelColor: Colors.white,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(
+              onTap: (index) {
+                setState(() {
+                  _screenTitle = _tabTitle[index];
+                });
+              },
+              indicator: const BoxDecoration(
                   border: Border(
-                      top: BorderSide(color: Colors.orange, width: 6.0))),
+                      top: BorderSide(
+                          color: AppColor.indicatorColor, width: 6.0))),
               tabs: [
                 Tab(
-                  text: "Home",
-                  icon: Icon(Icons.home),
+                  text: _tabTitle[0],
+                  icon: const Icon(Icons.home),
                 ),
                 Tab(
-                  text: "My Riddle",
-                  icon: Icon(Icons.dashboard),
+                  text: _tabTitle[1],
+                  icon: const Icon(Icons.dashboard),
                 ),
                 Tab(
-                  text: "Contest",
-                  icon: Icon(Symbols.trophy),
+                  text: _tabTitle[2],
+                  icon:  const Icon(Symbols.trophy),
                 ),
                 Tab(
-                  text: "Profile",
-                  icon: Icon(Icons.person),
+                  text: _tabTitle[3],
+                  icon: const Icon(Icons.person),
                 )
               ],
             ),
@@ -59,7 +81,7 @@ class MainScreen extends StatelessWidget {
               Icon(Icons.home),
               Icon(Icons.dashboard),
               Icon(Symbols.trophy),
-              Icon(Icons.person)
+              LoginScreen()
             ],
           )),
     ));
