@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
+import 'package:riddlepedia/modul/user/login/register_screen.dart';
+import 'package:riddlepedia/widget/form_input_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,10 +36,11 @@ class _LoginScreen extends State<LoginScreen> {
         child: Column(
           children: [
             20.0.height,
-            Container(alignment: Alignment.topLeft, child: const Text("Email")),
-            const SizedBox(height: 4),
-            TextFormField(
+            FormInput(
+              hint: "Enter your email",
+              title: "Email",
               controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value != null &&
                     value.isNotEmpty &&
@@ -46,72 +50,29 @@ class _LoginScreen extends State<LoginScreen> {
                 }
                 return null;
               },
-              onChanged: (text) {
-                setState(() {});
-              },
-              style: const TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                  borderSide: const BorderSide(width: 1, color: Colors.black38),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                  borderSide: const BorderSide(width: 1, color: Colors.black38),
-                ),
-                filled: true,
-                isDense: true,
-                contentPadding: const EdgeInsets.all(14),
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                hintText: "Enter your email",
-                fillColor: Colors.transparent,
-              ),
             ),
             20.0.height,
-            Container(
-                alignment: Alignment.topLeft, child: const Text("Password")),
-            const SizedBox(height: 4),
-            TextFormField(
+            FormInput(
+              hint: "Enter your password",
+              title: "Password",
               controller: _passwordController,
-              obscureText: !_passwordVisible,
+              keyboardType: TextInputType.emailAddress,
+              isVisible: _passwordVisible,
               validator: (value) {
-                if (value != null &&
-                    value.isNotEmpty &&
-                    !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                        .hasMatch(value)) {
-                  return 'Invalid Email Address';
+                if (value == null || value.isEmpty) {
+                  return 'Invalid Password';
                 }
                 return null;
               },
-              onChanged: (text) {
-                setState(() {});
-              },
-              style: const TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                  borderSide: const BorderSide(width: 1, color: Colors.black38),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                  borderSide: const BorderSide(width: 1, color: Colors.black38),
-                ),
-                filled: true,
-                isDense: true,
-                contentPadding: const EdgeInsets.all(14),
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                hintText: "Enter your password",
-                fillColor: Colors.transparent,
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                    icon: Icon(_passwordVisible
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined)),
-              ),
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined)),
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -199,22 +160,21 @@ class _LoginScreen extends State<LoginScreen> {
                         alignment: Alignment.center,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/image/google_logo.png',
-                            width: 19,
-                            height: 19,
-                          ),
-                          4.0.width,
-                          const Text(
-                            'Google',
-                            style:
-                                TextStyle(fontSize: 14, color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                      )
-                      ),
+                          children: [
+                            Image.asset(
+                              'assets/image/google_logo.png',
+                              width: 19,
+                              height: 19,
+                            ),
+                            4.0.width,
+                            const Text(
+                              'Google',
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      )),
                 )
               ],
             ),
@@ -237,7 +197,14 @@ class _LoginScreen extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(color: Colors.black38)),
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => const RegisterScreen(),
+                      )
+                    );
+                  },
                   child: const Text("Register",
                       style: TextStyle(
                           color: Colors.black87,
