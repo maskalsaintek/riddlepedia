@@ -18,32 +18,37 @@ class SettingMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return InkWell(
+        onTap: onPressed,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Column(
           children: [
-            Icon(icon, color: AppColor.secondaryColor),
-            12.0.width,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            20.0.height,
+            Row(
               children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16.0),
-                    textAlign: TextAlign.left),
-                2.5.height,
-                Text(subTitle,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal, fontSize: 13.0))
+                Icon(icon, color: AppColor.secondaryColor),
+                12.0.width,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0),
+                        textAlign: TextAlign.left),
+                    2.5.height,
+                    Text(subTitle,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal, fontSize: 13.0))
+                  ],
+                ),
+                const Spacer(),
+                const Icon(Icons.chevron_right)
               ],
             ),
-            const Spacer(),
-            const Icon(Icons.chevron_right)
+            10.0.height,
+            const Divider(thickness: 0.5)
           ],
-        ),
-        10.0.height,
-        const Divider(thickness: 0.5)
-      ],
-    );
+        ));
   }
 }

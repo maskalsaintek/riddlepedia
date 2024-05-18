@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:riddlepedia/modul/setting/setting.dart';
+import 'package:riddlepedia/modul/setting/setting_screen.dart';
 import 'package:riddlepedia/modul/user/login/login_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -75,9 +75,9 @@ class _MainScreen extends State<MainScreen> {
                   text: _tabTitle[2],
                   icon:  const Icon(Symbols.trophy),
                 ),
-                Tab(
-                  text: _tabTitle[3],
-                  icon: const Icon(Icons.person),
+                const Tab(
+                  text: "Profile",
+                  icon: Icon(Icons.person),
                 )
               ],
             ),

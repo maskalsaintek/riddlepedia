@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
-import 'package:riddlepedia/modul/user/login/register_screen.dart';
+import 'package:riddlepedia/modul/user/register/register_screen.dart';
 import 'package:riddlepedia/widget/form_input_widget.dart';
 
 class LoginScreen extends StatefulWidget {
