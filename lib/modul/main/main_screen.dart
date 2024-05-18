@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:riddlepedia/modul/setting/setting.dart';
 import 'package:riddlepedia/modul/user/login/login_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -36,7 +38,11 @@ class _MainScreen extends State<MainScreen> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 tooltip: 'Setting',
-                onPressed: () async {},
+                onPressed: () {
+                  Navigator.push(
+                    context, CupertinoPageRoute(
+                      builder: (context) => const SettingScreen()));
+                },
               ),
             ],
           ),
