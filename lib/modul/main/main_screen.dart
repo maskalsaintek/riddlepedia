@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:riddlepedia/modul/home/home_screen.dart';
+import 'package:riddlepedia/modul/my_riddle/my_riddle_screen.dart';
 import 'package:riddlepedia/modul/setting/setting_screen.dart';
 import 'package:riddlepedia/modul/user/login/login_screen.dart';
 
@@ -84,8 +86,8 @@ class _MainScreen extends State<MainScreen> {
           ),
           body: const TabBarView(
             children: [
-              Icon(Icons.home),
-              Icon(Icons.dashboard),
+              HomeScreen(),
+              MyRiddleScreen(),
               Icon(Symbols.trophy),
               LoginScreen()
             ],
