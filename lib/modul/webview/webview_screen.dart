@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:riddlepedia/constants/app_color.dart';
+import 'package:riddlepedia/constants/app_bar_type.dart';
+import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewScreen extends StatefulWidget {
@@ -29,19 +30,16 @@ class _WebviewScreen extends State<WebviewScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title),
-          backgroundColor: AppColor.mainColor,
-          foregroundColor: Colors.white,
-          leading: BackButton(
-            onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              } else {
-                SystemNavigator.pop();
-              }
-            },
-          )),
+      appBar: RpAppBar(
+                title: "Riddle Detail",
+                appBarType: RpAppBarType.back,
+                onClosePageButtonPressen: () {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    SystemNavigator.pop();
+                  }
+                }),
       body: Padding(
           padding: EdgeInsets.all(10),
           child: WebViewWidget(controller: _webViewController)),

@@ -6,6 +6,7 @@ import 'package:riddlepedia/modul/home/home_screen.dart';
 import 'package:riddlepedia/modul/my_riddle/my_riddle_screen.dart';
 import 'package:riddlepedia/modul/setting/setting_screen.dart';
 import 'package:riddlepedia/modul/user/login/login_screen.dart';
+import 'package:riddlepedia/widget/appbar_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,7 +16,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreen extends State<MainScreen> {
-
   String _screenTitle = "Riddlepedia";
   final _tabTitle = ["Home", "My Riddle", "Contest", "Login"];
 
@@ -32,22 +32,18 @@ class _MainScreen extends State<MainScreen> {
         home: DefaultTabController(
       length: 4,
       child: Scaffold(
-          appBar: AppBar(
-            title: Text(_screenTitle),
-            backgroundColor: AppColor.mainColor,
-            foregroundColor: Colors.white,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.settings),
-                tooltip: 'Setting',
-                onPressed: () {
-                  Navigator.push(
-                    context, CupertinoPageRoute(
-                      builder: (context) => const SettingScreen()));
-                },
-              ),
-            ],
-          ),
+          appBar: RpAppBar(title: _screenTitle, actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              tooltip: 'Setting',
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => const SettingScreen()));
+              },
+            ),
+          ]),
           bottomNavigationBar: Container(
             color: AppColor.mainColor,
             child: TabBar(
@@ -75,7 +71,7 @@ class _MainScreen extends State<MainScreen> {
                 ),
                 Tab(
                   text: _tabTitle[2],
-                  icon:  const Icon(Symbols.trophy),
+                  icon: const Icon(Symbols.trophy),
                 ),
                 const Tab(
                   text: "Profile",

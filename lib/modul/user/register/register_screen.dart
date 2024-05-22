@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:riddlepedia/constants/app_bar_type.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
+import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:riddlepedia/widget/form_input_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -33,24 +35,16 @@ class _RegisterScreen extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-              title: Text("Register"),
-              backgroundColor: AppColor.mainColor,
-              foregroundColor: Colors.white,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  tooltip: 'Close',
-                  onPressed: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    } else {
-                      SystemNavigator.pop();
-                    }
-                  },
-                ),
-              ],
-            ),
+            appBar: RpAppBar(
+                title: "Register",
+                appBarType: RpAppBarType.modal,
+                onClosePageButtonPressen: () {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    SystemNavigator.pop();
+                  }
+                }),
             body: SingleChildScrollView(
                 child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

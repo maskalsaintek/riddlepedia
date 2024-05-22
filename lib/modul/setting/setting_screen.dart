@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:riddlepedia/constants/app_bar_type.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/modul/webview/webview_screen.dart';
+import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:riddlepedia/widget/setting_menu_widget.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -22,19 +24,16 @@ class _SettingScreen extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-                title: const Text("Setting"),
-                backgroundColor: AppColor.mainColor,
-                foregroundColor: Colors.white,
-                leading: BackButton(
-                  onPressed: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    } else {
-                      SystemNavigator.pop();
-                    }
-                  },
-                )),
+            appBar: RpAppBar(
+                title: "Setting",
+                appBarType: RpAppBarType.back,
+                onClosePageButtonPressen: () {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    SystemNavigator.pop();
+                  }
+                }),
             body: SingleChildScrollView(
                 child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
