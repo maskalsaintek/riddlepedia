@@ -6,6 +6,7 @@ import 'package:riddlepedia/modul/home/home_screen.dart';
 import 'package:riddlepedia/modul/my_riddle/my_riddle_screen.dart';
 import 'package:riddlepedia/modul/setting/setting_screen.dart';
 import 'package:riddlepedia/modul/user/login/login_screen.dart';
+import 'package:riddlepedia/modul/user/profile/profile_screen.dart';
 import 'package:riddlepedia/widget/appbar_widget.dart';
 
 class MainScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreen extends State<MainScreen> {
   String _screenTitle = "Riddlepedia";
+  bool _isLogin = true;
   final _tabTitle = ["Home", "My Riddle", "Contest", "Login"];
 
   @override
@@ -53,7 +55,10 @@ class _MainScreen extends State<MainScreen> {
               indicatorSize: TabBarIndicatorSize.tab,
               onTap: (index) {
                 setState(() {
-                  _screenTitle = _tabTitle[index];
+                  if (index == 3) {
+                    _isLogin = !_isLogin;
+                  }
+                  _screenTitle = index == 3 ? (_isLogin ? "Profile" : "Login") : _tabTitle[index];
                 });
               },
               indicator: const BoxDecoration(
@@ -80,12 +85,12 @@ class _MainScreen extends State<MainScreen> {
               ],
             ),
           ),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              HomeScreen(),
-              MyRiddleScreen(),
-              Icon(Symbols.trophy),
-              LoginScreen()
+              const HomeScreen(),
+              const MyRiddleScreen(),
+              const Icon(Symbols.trophy),
+              _isLogin ? const ProfileScreen() : const LoginScreen()
             ],
           )),
     ));

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
+import 'package:riddlepedia/modul/my_riddle/create_riddle/create_riddle_screen.dart';
 import 'package:riddlepedia/widget/riddle_card_list_widget.dart';
 
 class MyRiddleScreen extends StatefulWidget {
@@ -94,7 +96,12 @@ class _MyRiddleScreen extends State<MyRiddleScreen> {
                 color: AppColor.secondaryColor,
                 borderRadius: BorderRadius.circular(6)),
             child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const CreateRiddleScreen()));
+                },
                 child: const Text("Create Riddle",
                     style: TextStyle(
                         color: Colors.white,

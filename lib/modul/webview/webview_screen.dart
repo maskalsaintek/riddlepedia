@@ -31,7 +31,7 @@ class _WebviewScreen extends State<WebviewScreen> {
     return MaterialApp(
         home: Scaffold(
       appBar: RpAppBar(
-                title: "Riddle Detail",
+                title: widget.title,
                 appBarType: RpAppBarType.back,
                 onClosePageButtonPressen: () {
                   if (Navigator.canPop(context)) {

@@ -6,6 +6,7 @@ class SettingMenu extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subTitle;
+  final bool isSufficIconVisible;
   final void Function()? onPressed;
 
   const SettingMenu({
@@ -13,6 +14,7 @@ class SettingMenu extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subTitle,
+    this.isSufficIconVisible = false,
     this.onPressed,
   });
 
@@ -43,7 +45,9 @@ class SettingMenu extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                const Icon(Icons.chevron_right)
+                Visibility(
+                    visible: isSufficIconVisible,
+                    child: const Icon(Icons.chevron_right))
               ],
             ),
             10.0.height,

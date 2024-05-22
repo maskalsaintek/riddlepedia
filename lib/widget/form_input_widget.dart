@@ -11,6 +11,7 @@ class FormInput extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? isVisible;
   final void Function(String value)? onChanged;
+  final int? maxLine;
   const FormInput({
     super.key,
     required this.hint,
@@ -22,6 +23,7 @@ class FormInput extends StatelessWidget {
     this.suffixIcon,
     this.isVisible,
     this.onChanged,
+    this.maxLine = 1
   });
 
   @override
@@ -34,6 +36,7 @@ class FormInput extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           validator: validator,
+          maxLines: maxLine,
           onChanged: onChanged,
           style: const TextStyle(color: Colors.black),
           obscureText: isVisible != null && !isVisible!,
