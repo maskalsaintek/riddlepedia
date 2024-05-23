@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:riddlepedia/modul/competition/competition_screen.dart';
 import 'package:riddlepedia/modul/home/home_screen.dart';
 import 'package:riddlepedia/modul/my_riddle/my_riddle_screen.dart';
 import 'package:riddlepedia/modul/setting/setting_screen.dart';
@@ -89,7 +90,7 @@ class _MainScreen extends State<MainScreen> {
             children: [
               const HomeScreen(),
               const MyRiddleScreen(),
-              const Icon(Symbols.trophy),
+              const CompetitionScreen(),
               _isLogin ? const ProfileScreen() : const LoginScreen()
             ],
           )),

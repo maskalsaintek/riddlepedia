@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:riddlepedia/constants/app_bar_type.dart';
-import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/modul/webview/webview_screen.dart';
 import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:riddlepedia/widget/setting_menu_widget.dart';
