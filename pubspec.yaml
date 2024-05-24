@@ -16,6 +16,9 @@ dependencies:
   flutter_native_splash: ^2.3.11
   material_symbols_icons: ^4.2741.0
   flutter_rating_bar: ^4.0.1
+  supabase_flutter: ^2.0.0
+  loading_animation_widget: ^1.2.1
+  pull_to_refresh_flutter3: ^2.0.2
 
 dev_dependencies:
   flutter_test:

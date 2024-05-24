@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:riddlepedia/modul/competition/competition_screen.dart';
+import 'package:riddlepedia/modul/home/bloc/bloc/home_bloc.dart';
 import 'package:riddlepedia/modul/home/home_screen.dart';
 import 'package:riddlepedia/modul/my_riddle/my_riddle_screen.dart';
 import 'package:riddlepedia/modul/setting/setting_screen.dart';
@@ -59,7 +61,9 @@ class _MainScreen extends State<MainScreen> {
                   if (index == 3) {
                     _isLogin = !_isLogin;
                   }
-                  _screenTitle = index == 3 ? (_isLogin ? "Profile" : "Login") : _tabTitle[index];
+                  _screenTitle = index == 3
+                      ? (_isLogin ? "Profile" : "Login")
+                      : _tabTitle[index];
                 });
               },
               indicator: const BoxDecoration(
@@ -86,14 +90,16 @@ class _MainScreen extends State<MainScreen> {
               ],
             ),
           ),
-          body: TabBarView(
-            children: [
-              const HomeScreen(),
-              const MyRiddleScreen(),
-              const CompetitionScreen(),
-              _isLogin ? const ProfileScreen() : const LoginScreen()
-            ],
-          )),
+          body: BlocProvider(
+              create: (context) => HomeBloc(),
+              child: TabBarView(
+                children: [
+                  const HomeScreen(),
+                  const MyRiddleScreen(),
+                  const CompetitionScreen(),
+                  _isLogin ? const ProfileScreen() : const LoginScreen()
+                ],
+              ))),
     ));
   }
 }
