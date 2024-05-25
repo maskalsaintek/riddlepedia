@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:riddlepedia/modul/competition/competition_screen.dart';
@@ -90,16 +91,36 @@ class _MainScreen extends State<MainScreen> {
               ],
             ),
           ),
-          body: BlocProvider(
-              create: (context) => HomeBloc(),
-              child: TabBarView(
-                children: [
-                  const HomeScreen(),
-                  const MyRiddleScreen(),
-                  const CompetitionScreen(),
-                  _isLogin ? const ProfileScreen() : const LoginScreen()
-                ],
-              ))),
+          body: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is LoadRiddleDataFailed) {
+                showPlatformDialog(
+                  context: context,
+                  builder: (context) => BasicDialogAlert(
+                    title: const Text("Information"),
+                    content:
+                        const Text("There is something wrong in our system."),
+                    actions: <Widget>[
+                      BasicDialogAction(
+                        title: const Text("OK"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+            child: TabBarView(
+              children: [
+                const HomeScreen(),
+                const MyRiddleScreen(),
+                const CompetitionScreen(),
+                _isLogin ? const ProfileScreen() : const LoginScreen()
+              ],
+            ),
+          )),
     ));
   }
 }

@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:riddlepedia/constants/app_color.dart';
-import 'package:riddlepedia/core/extension/double.dart';
 import 'package:riddlepedia/modul/home/bloc/bloc/home_bloc.dart';
 import 'package:riddlepedia/modul/home/model/riddle_model.dart';
 import 'package:riddlepedia/modul/riddle_detail/riddle_detail_screen.dart';
 import 'package:riddlepedia/widget/riddle_card_list_widget.dart';
+import 'package:riddlepedia/widget/rp_button_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +22,8 @@ class _HomeScreen extends State<HomeScreen> {
   final int _pageSize = 5;
   List<Riddle> _riddleList = [];
 
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -70,7 +71,7 @@ class _HomeScreen extends State<HomeScreen> {
                             context,
                             CupertinoPageRoute(
                                 builder: (context) =>
-                                    const RiddleDetailScreen()));
+                                    RiddleDetailScreen(id: riddle.id)));
                       },
                       child: RiddleCardList(
                           title: riddle.title,
@@ -86,8 +87,22 @@ class _HomeScreen extends State<HomeScreen> {
               ),
             );
           }
-
-          return 20.0.height;
+          return SizedBox(
+              width: 100,
+              child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: RpButton(
+                      title: "Refresh",
+                      width: 100,
+                      onPressed: () {
+                        context
+                            .read<HomeBloc>()
+                            .add(SetLoadingIsVisibleEvent());
+                        context.read<HomeBloc>().add(FetchRiddleDataEvent(
+                            limit: _pageSize,
+                            offset: 0,
+                            currentData: const []));
+                      })));
         }));
   }
 
@@ -99,6 +114,8 @@ class _HomeScreen extends State<HomeScreen> {
 
   void _onRiddleDataLoading() {
     context.read<HomeBloc>().add(FetchRiddleDataEvent(
-        limit: _pageSize, offset: _riddleList.length, currentData: _riddleList));
+        limit: _pageSize,
+        offset: _riddleList.length,
+        currentData: _riddleList));
   }
 }

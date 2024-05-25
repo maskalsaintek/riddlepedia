@@ -3,19 +3,21 @@ import '../constants/app_color.dart';
 
 class RpButton extends StatelessWidget {
   final String title;
+  final double? width;
   final void Function()? onPressed;
 
   const RpButton({
     super.key,
     required this.title,
     this.onPressed,
+    this.width
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 44,
-      width: MediaQuery.of(context).size.width,
+      width: width ?? MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: AppColor.secondaryColor,
           borderRadius: BorderRadius.circular(6)),

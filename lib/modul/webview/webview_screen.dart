@@ -41,7 +41,7 @@ class _WebviewScreen extends State<WebviewScreen> {
                   }
                 }),
       body: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: WebViewWidget(controller: _webViewController)),
     ));
   }

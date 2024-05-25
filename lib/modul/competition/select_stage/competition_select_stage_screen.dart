@@ -52,6 +52,7 @@ class _CompetitionSelectStageScreen
                             context,
                             CupertinoPageRoute(
                                 builder: (context) => const RiddleDetailScreen(
+                                    id: 0,
                                     isTimerVisible: true,
                                     isInfoVisible: false,
                                     isAuthorVisible: false)));

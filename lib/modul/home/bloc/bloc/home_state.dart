@@ -15,4 +15,4 @@ final class LoadRiddleDataSuccess extends HomeState {
   LoadRiddleDataSuccess(this.data);
 }
 
-final class LoadRiddleFailed extends HomeState {}
+final class LoadRiddleDataFailed extends HomeState {}
