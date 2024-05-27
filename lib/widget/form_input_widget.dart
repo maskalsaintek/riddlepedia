@@ -12,19 +12,18 @@ class FormInput extends StatelessWidget {
   final bool? isVisible;
   final void Function(String value)? onChanged;
   final int? maxLine;
-  const FormInput({
-    super.key,
-    required this.hint,
-    required this.title,
-    this.controller,
-    this.keyboardType,
-    this.validator,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.isVisible,
-    this.onChanged,
-    this.maxLine = 1
-  });
+  const FormInput(
+      {super.key,
+      required this.hint,
+      required this.title,
+      this.controller,
+      this.keyboardType,
+      this.validator,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.isVisible,
+      this.onChanged,
+      this.maxLine = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +41,9 @@ class FormInput extends StatelessWidget {
           obscureText: isVisible != null && !isVisible!,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(14),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
                 borderSide: const BorderSide(width: 1, color: Colors.black38),
