@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:riddlepedia/modul/competition/competition_screen.dart';
@@ -9,9 +10,11 @@ import 'package:riddlepedia/modul/home/bloc/bloc/home_bloc.dart';
 import 'package:riddlepedia/modul/home/home_screen.dart';
 import 'package:riddlepedia/modul/my_riddle/my_riddle_screen.dart';
 import 'package:riddlepedia/modul/setting/setting_screen.dart';
+import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
 import 'package:riddlepedia/modul/user/login/login_screen.dart';
 import 'package:riddlepedia/modul/user/profile/profile_screen.dart';
 import 'package:riddlepedia/widget/appbar_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -60,11 +63,11 @@ class _MainScreen extends State<MainScreen> {
               onTap: (index) {
                 setState(() {
                   if (index == 3) {
-                    _isLogin = !_isLogin;
+                    _screenTitle = !_isLogin ? "Profile" : "Login";
+                    context.read<UserBloc>().add(FetchUserEvent());
+                    return;
                   }
-                  _screenTitle = index == 3
-                      ? (_isLogin ? "Profile" : "Login")
-                      : _tabTitle[index];
+                  _screenTitle = _tabTitle[index];
                 });
               },
               indicator: const BoxDecoration(
@@ -91,33 +94,92 @@ class _MainScreen extends State<MainScreen> {
               ],
             ),
           ),
-          body: BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is LoadRiddleDataFailed) {
-                showPlatformDialog(
-                  context: context,
-                  builder: (context) => BasicDialogAlert(
-                    title: const Text("Information"),
-                    content:
-                        const Text("There is something wrong in our system."),
-                    actions: <Widget>[
-                      BasicDialogAction(
-                        title: const Text("OK"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<HomeBloc, HomeState>(listener: (context, state) {
+                if (state is LoadRiddleDataFailed) {
+                  showPlatformDialog(
+                    context: context,
+                    builder: (context) => BasicDialogAlert(
+                      title: const Text("Information"),
+                      content:
+                          const Text("There is something wrong in our system."),
+                      actions: <Widget>[
+                        BasicDialogAction(
+                          title: const Text("OK"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }),
+              BlocListener<UserBloc, UserState>(listener: (context, state) {
+                if (state is LoginFailed) {
+                  showPlatformDialog(
+                    context: context,
+                    builder: (context) => BasicDialogAlert(
+                      title: const Text("Information"),
+                      content: Text(state.error),
+                      actions: <Widget>[
+                        BasicDialogAction(
+                          title: const Text("OK"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+
+                  setState(() {
+                    _isLogin = true;
+                  });
+                }
+
+                if (state is UserLoadingIsVisible) {
+                  EasyLoading.show(
+                      status: 'Registering...',
+                      maskType: EasyLoadingMaskType.black);
+                }
+
+                if (state is UserLoadingIsNotVisible) {
+                  EasyLoading.dismiss();
+                }
+
+                if (state is LoginSuccess) {
+                  setState(() {
+                    _isLogin = false;
+                  });
+                }
+
+                if (state is UserDataNotFound) {
+                  setState(() {
+                    _isLogin = true;
+                  });
+                }
+
+                if (state is LogoutSuccess) {
+                  setState(() {
+                    _isLogin = true;
+                  });
+                }
+
+                if (state is UserDataExist) {
+                  setState(() {
+                    _isLogin = false;
+                  });
+                }
+              })
+            ],
             child: TabBarView(
               children: [
                 const HomeScreen(),
                 const MyRiddleScreen(),
                 const CompetitionScreen(),
-                _isLogin ? const ProfileScreen() : const LoginScreen()
+                !_isLogin ? const ProfileScreen() : const LoginScreen()
               ],
             ),
           )),

@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
+import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
 import 'package:riddlepedia/modul/user/register/register_screen.dart';
+import 'package:riddlepedia/util/md5_util.dart';
 import 'package:riddlepedia/widget/form_input_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -92,7 +95,11 @@ class _LoginScreen extends State<LoginScreen> {
                   color: AppColor.secondaryColor,
                   borderRadius: BorderRadius.circular(6)),
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<UserBloc>().add(SubmitLoginEvent(
+                        email: _emailController.text,
+                        password: convertToMd5(_passwordController.text)));
+                  },
                   child: const Text("Log In",
                       style: TextStyle(
                           color: Colors.white,
@@ -198,12 +205,10 @@ class _LoginScreen extends State<LoginScreen> {
                   border: Border.all(color: Colors.black38)),
               child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      CupertinoPageRoute(
-                        fullscreenDialog: true,
-                        builder: (context) => const RegisterScreen(),
-                      )
-                    );
+                    Navigator.of(context).push(CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => const RegisterScreen(),
+                    ));
                   },
                   child: const Text("Register",
                       style: TextStyle(
