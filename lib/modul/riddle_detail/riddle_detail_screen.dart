@@ -10,7 +10,7 @@ import 'package:riddlepedia/constants/app_bar_type.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
 import 'package:riddlepedia/modul/riddle_detail/bloc/riddle_detail_bloc.dart';
-import 'package:riddlepedia/modul/riddle_detail/riddle_model/riddle_detail_model.dart';
+import 'package:riddlepedia/modul/riddle_detail/model/riddle_detail_model.dart';
 import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:riddlepedia/widget/hint_dialog_widget.dart';
 import 'package:riddlepedia/widget/rp_button_widget.dart';

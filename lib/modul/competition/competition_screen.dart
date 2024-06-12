@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:riddlepedia/core/extension/double.dart';
-import 'package:riddlepedia/modul/competition/ranking/competition_ranking.dart';
+import 'package:riddlepedia/modul/competition/ranking/competition_ranking_screen.dart';
 import 'package:riddlepedia/modul/competition/select_stage/competition_select_stage_screen.dart';
 import 'package:riddlepedia/widget/rp_button_widget.dart';
 

@@ -67,6 +67,11 @@ class _MainScreen extends State<MainScreen> {
                     context.read<UserBloc>().add(FetchUserEvent());
                     return;
                   }
+                  if (index == 2) {
+                    _screenTitle = !_isLogin ? "Contest" : "Login";
+                    context.read<UserBloc>().add(FetchUserEvent());
+                    return;
+                  }
                   _screenTitle = _tabTitle[index];
                 });
               },
@@ -177,8 +182,8 @@ class _MainScreen extends State<MainScreen> {
             child: TabBarView(
               children: [
                 const HomeScreen(),
-                const MyRiddleScreen(),
-                const CompetitionScreen(),
+                !_isLogin ? const MyRiddleScreen() : const LoginScreen(),
+                !_isLogin ? const CompetitionScreen() : const LoginScreen(),
                 !_isLogin ? const ProfileScreen() : const LoginScreen()
               ],
             ),

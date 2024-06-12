@@ -1,3 +1,5 @@
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+
 plugins {
     id "com.android.application"
     id "kotlin-android"

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:logger/web.dart';
 import 'package:meta/meta.dart';
-import 'package:riddlepedia/modul/riddle_detail/riddle_model/riddle_detail_model.dart';
+import 'package:riddlepedia/modul/riddle_detail/model/riddle_detail_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'riddle_detail_event.dart';
