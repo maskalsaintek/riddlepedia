@@ -10,3 +10,18 @@ class FetchRiddleDataEvent extends RiddleDetailEvent {
 
   FetchRiddleDataEvent({required this.id});
 }
+
+class SubmitCompetitionDataEvent extends RiddleDetailEvent {
+  final int riddleId;
+  final int score;
+  final int duration;
+  final bool isCorrect;
+  final RiddleDetail data;
+
+  SubmitCompetitionDataEvent(
+      {required this.riddleId,
+      required this.score,
+      required this.duration, 
+      required this.isCorrect, 
+      required this.data});
+}

@@ -11,8 +11,9 @@ final class LoadingIsNotVisible extends RiddleDetailState {}
 
 final class LoadRiddleDataSuccess extends RiddleDetailState {
   final RiddleDetail data;
+  final bool isPopBack;
 
-  LoadRiddleDataSuccess(this.data);
+  LoadRiddleDataSuccess(this.data, this.isPopBack);
 }
 
 final class LoadRiddleDataFailed extends RiddleDetailState {}

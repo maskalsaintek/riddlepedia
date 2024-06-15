@@ -7,8 +7,9 @@ final class CompetitionStageInitial extends CompetitionStageState {}
 
 final class CompetitionStageCountResultState extends CompetitionStageState {
   final int count;
+  final List<CompetitionStage> competitionStage;
 
-  CompetitionStageCountResultState(this.count);
+  CompetitionStageCountResultState(this.count, this.competitionStage);
 }
 
 final class LoadingIsVisible extends CompetitionStageState {}
