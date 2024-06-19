@@ -15,6 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final response = await Supabase.instance.client
           .from("riddle")
           .select()
+          .eq('record_flag', 'active')
           .range(event.offset, event.offset + event.limit - 1);
 
       try {

@@ -17,7 +17,7 @@ class RiddleCardList extends StatelessWidget {
       required this.description,
       required this.level,
       required this.rating,
-      required this.index, 
+      required this.index,
       required this.imageUrl});
 
   @override
@@ -61,32 +61,46 @@ class RiddleCardList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(child: Text(title,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.0),
-                              textAlign: TextAlign.left)),
+                          Expanded(
+                              child: Text(title,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0),
+                                  textAlign: TextAlign.left)),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               RatingBarIndicator(
-                                rating: rating,
-                                direction: Axis.horizontal,
-                                itemCount: 5,
-                                itemSize: 15,
-                                itemPadding:
-                                    const EdgeInsets.symmetric(horizontal: 0.5),
-                                itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                )
-                              ),
-                              Text(level,
+                                  rating: rating,
+                                  direction: Axis.horizontal,
+                                  itemCount: 5,
+                                  itemSize: 15,
+                                  itemPadding: const EdgeInsets.symmetric(
+                                      horizontal: 0.5),
+                                  itemBuilder: (context, _) => const Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      )),
+                              Text(
+                                  level == "active"
+                                      ? "Approved"
+                                      : level == "rejected"
+                                          ? "Rejected"
+                                          : level == "waiting_approval"
+                                              ? "In Review"
+                                              : level,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 11.0,
-                                      color: level == "Hard" ? Colors.red[700] 
-                                      : level == "Normal" ? Colors.orange
-                                      : AppColor.secondaryColor))
+                                      color: level == "Hard" ||
+                                              level == "rejected"
+                                          ? Colors.red[700]
+                                          : level == "Normal" ||
+                                                  level == "waiting_approval"
+                                              ? Colors.orange
+                                              : level == "active"
+                                                  ? Colors.green
+                                                  : AppColor.secondaryColor))
                             ],
                           )
                         ],

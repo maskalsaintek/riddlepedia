@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:riddlepedia/modul/competition/ranking/bloc/competition_ranking_bloc.dart';
 import 'package:riddlepedia/modul/competition/select_stage/bloc/competition_stage_bloc.dart';
 import 'package:riddlepedia/modul/home/bloc/bloc/home_bloc.dart';
+import 'package:riddlepedia/modul/my_riddle/bloc/my_riddle_bloc.dart';
 import 'package:riddlepedia/modul/riddle_detail/bloc/riddle_detail_bloc.dart';
 import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
 import 'package:riddlepedia/modul/user/register/bloc/register_bloc.dart';
@@ -26,10 +27,20 @@ void main() async {
         BlocProvider(create: (context) => RegisterBloc()),
         BlocProvider(create: (context) => UserBloc()),
         BlocProvider(create: (context) => CompetitionStageBloc()),
-        BlocProvider(create: (context) => CompetitionRankingBloc())
+        BlocProvider(create: (context) => CompetitionRankingBloc()),
+        BlocProvider(create: (context) => MyRiddleBloc())
       ],
       child: MaterialApp(
           title: "Riddlepedia",
           home: const MainScreen(),
-          builder: EasyLoading.init())));
+          builder: EasyLoading.init(),
+          theme: ThemeData(
+              primarySwatch: Colors.blue,
+              colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.blue,
+      brightness: Brightness.dark,
+    ),
+              buttonTheme: const ButtonThemeData(
+                buttonColor: Colors.blue, // Default button color
+              )))));
 }
