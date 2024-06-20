@@ -408,27 +408,57 @@ class _RiddleDetailScreen extends State<RiddleDetailScreen> {
       );
     }
 
-    EasyLoading.show(status: 'Loading...', maskType: EasyLoadingMaskType.black);
+    if (widget.isCompetition) {
+      EasyLoading.show(
+          status: 'Loading...', maskType: EasyLoadingMaskType.black);
+    }
 
     if (_selectedOption! == _realAnswer) {
-      final int bonusPoint = _limitBonusPointDuration - _seconds;
-      final int score = bonusPoint < 0 ? _basePoint : _basePoint + bonusPoint;
-      _isCorrect = true;
+      if (widget.isCompetition) {
+        final int bonusPoint = _limitBonusPointDuration - _seconds;
+        final int score = bonusPoint < 0 ? _basePoint : _basePoint + bonusPoint;
+        _isCorrect = true;
 
-      context.read<RiddleDetailBloc>().add(SubmitCompetitionDataEvent(
-          data: riddleDetail,
-          riddleId: widget.id,
-          score: score,
-          isCorrect: true,
-          duration: _seconds));
+        context.read<RiddleDetailBloc>().add(SubmitCompetitionDataEvent(
+            data: riddleDetail,
+            riddleId: widget.id,
+            score: score,
+            isCorrect: true,
+            duration: _seconds));
+      } else {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.success,
+          animType: AnimType.topSlide,
+          title: 'Congratulation',
+          desc: 'Your Answer is Correct',
+          btnOkOnPress: () {
+            Navigator.pop(context);
+          },
+        ).show();
+      }
     } else {
-      _isCorrect = false;
-      context.read<RiddleDetailBloc>().add(SubmitCompetitionDataEvent(
-          data: riddleDetail,
-          riddleId: widget.id,
-          score: 0,
-          isCorrect: false,
-          duration: _seconds));
+      if (widget.isCompetition) {
+        _isCorrect = false;
+        context.read<RiddleDetailBloc>().add(SubmitCompetitionDataEvent(
+            data: riddleDetail,
+            riddleId: widget.id,
+            score: 0,
+            isCorrect: false,
+            duration: _seconds));
+      } else {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.topSlide,
+          title: 'Sorry',
+          desc: 'Your Answer is Wrong',
+          btnOkColor: Colors.red[700],
+          btnOkOnPress: () {
+            Navigator.pop(context);
+          },
+        ).show();
+      }
     }
   }
 }

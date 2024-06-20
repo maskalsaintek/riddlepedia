@@ -191,11 +191,12 @@ class _MyRiddleScreen extends State<MyRiddleScreen> {
                   color: AppColor.secondaryColor,
                   borderRadius: BorderRadius.circular(6)),
               child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    await Navigator.push(
                         context,
                         CupertinoPageRoute(
                             builder: (context) => const CreateRiddleScreen()));
+                    _onRiddleDataRefresh();
                   },
                   child: const Text("Create Riddle",
                       style: TextStyle(

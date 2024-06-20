@@ -5,6 +5,7 @@ import 'package:riddlepedia/modul/competition/ranking/bloc/competition_ranking_b
 import 'package:riddlepedia/modul/competition/select_stage/bloc/competition_stage_bloc.dart';
 import 'package:riddlepedia/modul/home/bloc/bloc/home_bloc.dart';
 import 'package:riddlepedia/modul/my_riddle/bloc/my_riddle_bloc.dart';
+import 'package:riddlepedia/modul/my_riddle/create_riddle/bloc/create_riddle_bloc.dart';
 import 'package:riddlepedia/modul/riddle_detail/bloc/riddle_detail_bloc.dart';
 import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
 import 'package:riddlepedia/modul/user/register/bloc/register_bloc.dart';
@@ -28,7 +29,8 @@ void main() async {
         BlocProvider(create: (context) => UserBloc()),
         BlocProvider(create: (context) => CompetitionStageBloc()),
         BlocProvider(create: (context) => CompetitionRankingBloc()),
-        BlocProvider(create: (context) => MyRiddleBloc())
+        BlocProvider(create: (context) => MyRiddleBloc()),
+        BlocProvider(create: (context) => CreateRiddleBloc())
       ],
       child: MaterialApp(
           title: "Riddlepedia",
