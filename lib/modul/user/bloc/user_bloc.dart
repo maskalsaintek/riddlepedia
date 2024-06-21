@@ -33,6 +33,29 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     });
 
+    on<SubmitLoginFacebookEvent>((event, emit) async {
+      emit(UserLoadingIsVisible());
+      try {
+        final response = await Supabase.instance.client.from('user').upsert({
+          'id': event.id,
+          'full_name': event.name,
+          'email': event.email,
+          'password': 'fb-type',
+          'create_by': event.email,
+          'last_update_by': event.email
+        }).select().single();
+        RpUser? user = RpUser.fromJson(response);
+        logger.d(response);
+        emit(UserLoadingIsNotVisible());
+        await PreferenceUtil.save('user', user);
+        emit(LoginSuccess());
+      } catch (e) {
+        logger.e("Error Submit Login. Error: $e");
+        emit(UserLoadingIsNotVisible());
+        emit(LoginFailed(error: "Invalid Email or Password"));
+      }
+    });
+
     on<FetchUserEvent>((event, emit) async {
       emit(UserLoadingIsVisible());
       RpUser? savedUser = await PreferenceUtil.get<RpUser?>(

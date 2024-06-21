@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:logger/web.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
 import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
@@ -16,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
+  var logger = Logger();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -129,7 +134,27 @@ class _LoginScreen extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(color: Colors.black38)),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final LoginResult result =
+                          await FacebookAuth.instance.login(
+                        permissions: ['public_profile', 'email'],
+                      );
+                      if (result.status == LoginStatus.success) {
+                        final AccessToken accessToken = result.accessToken!;
+                        logger.d('token fb = ${accessToken}');
+                        final userData = await FacebookAuth.i.getUserData(
+                          fields: "name,email",
+                        );
+                        EasyLoading.show(
+                            status: 'Loading...',
+                            maskType: EasyLoadingMaskType.black);
+                        logger.d('userData = ${userData['id']}');
+                        context.read<UserBloc>().add(SubmitLoginFacebookEvent(
+                            email: userData['email'],
+                            name: userData['name'],
+                            id: int.parse(userData['id'])));
+                      }
+                    },
                     child: Align(
                       alignment: Alignment.center,
                       child: Row(

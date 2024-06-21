@@ -293,6 +293,9 @@ class _CreateRiddleScreen extends State<CreateRiddleScreen> {
                               return;
                             }
 
+                            EasyLoading.show(
+                              status: 'Loading...', maskType: EasyLoadingMaskType.black);
+
                             String answerValue;
                             switch (_answer) {
                               case 0:

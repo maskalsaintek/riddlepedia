@@ -146,7 +146,7 @@ class _MainScreen extends State<MainScreen> {
 
                 if (state is UserLoadingIsVisible) {
                   EasyLoading.show(
-                      status: 'Registering...',
+                      status: 'Loading...',
                       maskType: EasyLoadingMaskType.black);
                 }
 

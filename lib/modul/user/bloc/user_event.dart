@@ -10,6 +10,14 @@ class SubmitLoginEvent extends UserEvent {
   SubmitLoginEvent({required this.email, required this.password});
 }
 
+class SubmitLoginFacebookEvent extends UserEvent {
+  final String email;
+  final String name;
+  final int id;
+
+  SubmitLoginFacebookEvent({required this.email, required this.name, required this.id});
+}
+
 class FetchUserEvent extends UserEvent {}
 
 class LogoutEvent extends UserEvent {}
