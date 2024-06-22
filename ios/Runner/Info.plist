@@ -50,9 +50,12 @@
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
         <key>CFBundleURLSchemes</key>
         <array>
           <string>fb7781204785327070</string>
+          <string>com.googleusercontent.apps.1055710610450-1ba7jikcd1a750cg9pf5kq7bl4juptd4</string>
         </array>
       </dict>
     </array>
@@ -67,5 +70,7 @@
       <string>fbapi</string>
       <string>fb-messenger-share-api</string>
     </array>
+    <key>GIDClientID</key>
+    <string>1055710610450-n8njn4292sajnk2kv8mg09fs9tl7flat.apps.googleusercontent.com</string>
 </dict>
 </plist>

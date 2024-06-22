@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1055710610450",
+    "project_id": "riddlepedia-dev",
+    "storage_bucket": "riddlepedia-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055710610450:android:486455fcf46ff3102c04cb",
+        "android_client_info": {
+          "package_name": "com.example.riddlepedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055710610450-n8njn4292sajnk2kv8mg09fs9tl7flat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAISZVspJvCECvlM62wdVeODKVHBd85rP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055710610450-n8njn4292sajnk2kv8mg09fs9tl7flat.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1055710610450-1ba7jikcd1a750cg9pf5kq7bl4juptd4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.justkhals.riddlepedia.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

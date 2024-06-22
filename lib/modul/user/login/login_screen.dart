@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/web.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
@@ -187,7 +188,31 @@ class _LoginScreen extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(color: Colors.black38)),
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        const List<String> scopes = <String>[
+                          'email',
+                          'https://www.googleapis.com/auth/contacts.readonly',
+                        ];
+
+                        GoogleSignIn _googleSignIn = GoogleSignIn(
+                          scopes: scopes,
+                        );
+                        final GoogleSignInAccount? googleUser =
+                            await _googleSignIn.signIn();
+
+                        if (googleUser == null) {
+                          logger.d('empty google user');
+                          return;
+                        }
+
+                        EasyLoading.show(
+                            status: 'Loading...',
+                            maskType: EasyLoadingMaskType.black);
+                        context.read<UserBloc>().add(SubmitLoginFacebookEvent(
+                            email: googleUser!.email,
+                            name: googleUser.displayName!,
+                            id: int.parse(googleUser.id.substring(0, 6))));
+                      },
                       child: Align(
                         alignment: Alignment.center,
                         child: Row(
