@@ -1,19 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:logger/web.dart';
 import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
 import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
+import 'package:riddlepedia/modul/user/model/user_model.dart';
 import 'package:riddlepedia/modul/user/register/register_screen.dart';
 import 'package:riddlepedia/util/md5_util.dart';
 import 'package:riddlepedia/widget/form_input_widget.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final RpUser? savedBiometricUser;
+
+  const LoginScreen({super.key, this.savedBiometricUser});
 
   @override
   State<LoginScreen> createState() => _LoginScreen();
@@ -25,6 +32,7 @@ class _LoginScreen extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final LocalAuthentication _auth = LocalAuthentication();
 
   late bool _passwordVisible;
 
@@ -112,6 +120,41 @@ class _LoginScreen extends State<LoginScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 14))),
             ),
+            if (widget.savedBiometricUser != null) 16.0.height,
+            if (widget.savedBiometricUser != null)
+              Container(
+                height: 44,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: AppColor.secondaryColor,
+                    borderRadius: BorderRadius.circular(6)),
+                child: TextButton.icon(
+                    icon: const Icon(Icons.fingerprint_outlined,
+                        color: Colors.white),
+                    onPressed: () async {
+                      List<BiometricType> availableBiometrics =
+                          await _auth.getAvailableBiometrics();
+
+                      if (Platform.isIOS) {
+                        if (availableBiometrics.contains(BiometricType.face)) {
+                          _startBioMetricAuth(
+                              "Use Face ID for biometric. authentication");
+                        } else if (availableBiometrics
+                            .contains(BiometricType.fingerprint)) {
+                          _startBioMetricAuth(
+                              "Use Fingerprint for biometric. authentication");
+                        }
+                      } else {
+                        _startBioMetricAuth(
+                            "Use Fingerprint for biometric. authentication");
+                      }
+                    },
+                    label: const Text("Log With Biometric",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14))),
+              ),
             22.0.height,
             const Row(
               children: [
@@ -270,5 +313,16 @@ class _LoginScreen extends State<LoginScreen> {
         ),
       ),
     ));
+  }
+
+  void _startBioMetricAuth(String message) async {
+    try {
+      bool didAuthenticate = await _auth.authenticate(
+          localizedReason: message,
+          options: const AuthenticationOptions(useErrorDialogs: false));
+      if (didAuthenticate) {
+        context.read<UserBloc>().add(SubmiBiometrictLoginEvent());
+      }
+    } on PlatformException catch (e) {}
   }
 }

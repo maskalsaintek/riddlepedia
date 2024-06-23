@@ -72,5 +72,7 @@
     </array>
     <key>GIDClientID</key>
     <string>1055710610450-n8njn4292sajnk2kv8mg09fs9tl7flat.apps.googleusercontent.com</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>Riddlepedia want to you use face id?</string>
 </dict>
 </plist>

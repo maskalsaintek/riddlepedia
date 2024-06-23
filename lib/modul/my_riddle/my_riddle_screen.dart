@@ -146,42 +146,47 @@ class _MyRiddleScreen extends State<MyRiddleScreen> {
                             child: LoadingAnimationWidget.staggeredDotsWave(
                                 color: AppColor.secondaryColor, size: 75))))
                 : state is LoadRiddleDataSuccess
-                    ? Expanded(
-                        child: SmartRefresher(
-                        enablePullDown: true,
-                        enablePullUp: true,
-                        header: const WaterDropHeader(),
-                        controller: _refreshController,
-                        onRefresh: _onRiddleDataRefresh,
-                        onLoading: _onRiddleDataLoading,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          itemCount: state.data.length,
-                          itemBuilder: (context, index) {
-                            final Riddle riddle = state.data[index];
+                    ? state.data.isEmpty
+                        ? const Expanded(
+                            child: Center(child: Icon(Icons.delete_outline, size: 50)))
+                        : Expanded(
+                            child: SmartRefresher(
+                            enablePullDown: true,
+                            enablePullUp: true,
+                            header: const WaterDropHeader(),
+                            controller: _refreshController,
+                            onRefresh: _onRiddleDataRefresh,
+                            onLoading: _onRiddleDataLoading,
+                            child: ListView.builder(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              itemCount: state.data.length,
+                              itemBuilder: (context, index) {
+                                final Riddle riddle = state.data[index];
 
-                            return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) =>
-                                              RiddleDetailScreen(
-                                                  id: riddle.id)));
-                                },
-                                child: RiddleCardList(
-                                    title: riddle.title,
-                                    description: riddle.description,
-                                    level: riddle.recordFlag,
-                                    rating: riddle.rating,
-                                    imageUrl: Supabase.instance.client.storage
-                                        .from('riddlepedia')
-                                        .getPublicUrl(
-                                            'category/category-${riddle.categoryId}.jpeg'),
-                                    index: index));
-                          },
-                        ),
-                      ))
+                                return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  RiddleDetailScreen(
+                                                      id: riddle.id)));
+                                    },
+                                    child: RiddleCardList(
+                                        title: riddle.title,
+                                        description: riddle.description,
+                                        level: riddle.recordFlag,
+                                        rating: riddle.rating,
+                                        imageUrl: Supabase
+                                            .instance.client.storage
+                                            .from('riddlepedia')
+                                            .getPublicUrl(
+                                                'category/category-${riddle.categoryId}.jpeg'),
+                                        index: index));
+                              },
+                            ),
+                          ))
                     : Container(),
             Container(
               margin: const EdgeInsets.all(20.0),
@@ -394,7 +399,8 @@ class _MyRiddleScreen extends State<MyRiddleScreen> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: AppColor.secondaryColor, //change text color of button
+                backgroundColor:
+                    AppColor.secondaryColor, //change text color of button
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
                 ),

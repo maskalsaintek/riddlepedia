@@ -15,8 +15,11 @@ class LogoutSuccess extends UserState {}
 
 class UserDataExist extends UserState {
   final RpUser user;
+  final String rank;
+  final String answeredRiddle;
 
-  UserDataExist({required this.user});
+  UserDataExist(
+      {required this.user, required this.rank, required this.answeredRiddle});
 }
 
 class UserDataNotFound extends UserState {}

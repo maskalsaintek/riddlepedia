@@ -1,22 +1,37 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:logger/web.dart';
 import 'package:riddlepedia/constants/app_bar_type.dart';
+import 'package:riddlepedia/modul/user/model/user_model.dart';
 import 'package:riddlepedia/modul/webview/webview_screen.dart';
+import 'package:riddlepedia/util/preference_util.dart';
 import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:riddlepedia/widget/setting_menu_widget.dart';
+import 'package:local_auth/local_auth.dart';
 
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({super.key});
+  final RpUser? savedUser;
+  final RpUser? savedBiometricUser;
+
+  const SettingScreen({super.key, this.savedUser, this.savedBiometricUser});
 
   @override
   State<SettingScreen> createState() => _SettingScreen();
 }
 
 class _SettingScreen extends State<SettingScreen> {
+  var logger = Logger();
+  final LocalAuthentication _auth = LocalAuthentication();
+  bool _isBiometricActivated = false;
+
   @override
   void initState() {
     super.initState();
+    _isBiometricActivated = widget.savedBiometricUser != null;
   }
 
   @override
@@ -45,17 +60,52 @@ class _SettingScreen extends State<SettingScreen> {
                             onPressed: () {
                               _showChooseLanguageActionSheet(context);
                             }),
-                        SettingMenu(
-                            icon: Icons.palette_outlined,
-                            title: "Theme",
-                            subTitle: "Light",
-                            onPressed: () {
-                              _showChooseThemeActionSheet(context);
-                            }),
-                        const SettingMenu(
-                            icon: Icons.fingerprint_outlined,
-                            title: "Biometric Login",
-                            subTitle: "Login with fingerprint and face id"),
+                        if (widget.savedUser != null)
+                          SettingMenu(
+                              icon: Icons.fingerprint_outlined,
+                              title: "Biometric Login",
+                              subTitle: _isBiometricActivated
+                                  ? "Biometric Authentication is Activated"
+                                  : "Login with fingerprint and face id",
+                              onPressed: () async {
+                                if (_isBiometricActivated) {
+                                  showPlatformDialog(
+                                    context: context,
+                                    builder: (context) => BasicDialogAlert(
+                                      title: const Text("Information"),
+                                      content: const Text(
+                                          "Biometric has beem activated"),
+                                      actions: <Widget>[
+                                        BasicDialogAction(
+                                          title: const Text("OK"),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                List<BiometricType> availableBiometrics =
+                                    await _auth.getAvailableBiometrics();
+
+                                if (Platform.isIOS) {
+                                  if (availableBiometrics
+                                      .contains(BiometricType.face)) {
+                                    _startBioMetricAuth(
+                                        "Use Face ID for biometric. authentication");
+                                  } else if (availableBiometrics
+                                      .contains(BiometricType.fingerprint)) {
+                                    _startBioMetricAuth(
+                                        "Use Fingerprint for biometric. authentication");
+                                  }
+                                } else {
+                                  _startBioMetricAuth(
+                                      "Use Fingerprint for biometric. authentication");
+                                }
+                              }),
                         SettingMenu(
                             icon: Icons.question_answer_outlined,
                             title: "FAQ",
@@ -130,5 +180,19 @@ class _SettingScreen extends State<SettingScreen> {
         ],
       ),
     );
+  }
+
+  void _startBioMetricAuth(String message) async {
+    try {
+      bool didAuthenticate = await _auth.authenticate(
+          localizedReason: message,
+          options: const AuthenticationOptions(useErrorDialogs: false));
+      if (didAuthenticate) {
+        await PreferenceUtil.save('biometric_user', widget.savedUser);
+        setState(() {
+          _isBiometricActivated = true;
+        });
+      }
+    } on PlatformException catch (e) {}
   }
 }

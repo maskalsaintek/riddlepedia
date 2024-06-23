@@ -12,12 +12,16 @@ import 'package:riddlepedia/modul/my_riddle/my_riddle_screen.dart';
 import 'package:riddlepedia/modul/setting/setting_screen.dart';
 import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
 import 'package:riddlepedia/modul/user/login/login_screen.dart';
+import 'package:riddlepedia/modul/user/model/user_model.dart';
 import 'package:riddlepedia/modul/user/profile/profile_screen.dart';
+import 'package:riddlepedia/util/preference_util.dart';
 import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final RpUser? savedBiometricUser;
+
+  const MainScreen({super.key, this.savedBiometricUser});
 
   @override
   State<MainScreen> createState() => _MainScreen();
@@ -27,12 +31,14 @@ class _MainScreen extends State<MainScreen> {
   String _screenTitle = "Riddlepedia";
   bool _isLogin = true;
   final _tabTitle = ["Home", "My Riddle", "Contest", "Login"];
+  RpUser? _savedBiometricUser;
 
   @override
   void initState() {
     super.initState();
 
     _screenTitle = _tabTitle[0];
+    _savedBiometricUser = widget.savedBiometricUser;
   }
 
   @override
@@ -45,11 +51,18 @@ class _MainScreen extends State<MainScreen> {
             IconButton(
               icon: const Icon(Icons.settings),
               tooltip: 'Setting',
-              onPressed: () {
+              onPressed: () async {
+                final RpUser? savedUser = await PreferenceUtil.get<RpUser?>(
+                    'user', (json) => RpUser.fromJson(json));
+                final RpUser? savedBiometricUser =
+                    await PreferenceUtil.get<RpUser?>(
+                        'biometric_user', (json) => RpUser.fromJson(json));
                 Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => const SettingScreen()));
+                        builder: (context) => SettingScreen(
+                            savedUser: savedUser,
+                            savedBiometricUser: savedBiometricUser)));
               },
             ),
           ]),
@@ -121,7 +134,7 @@ class _MainScreen extends State<MainScreen> {
                   );
                 }
               }),
-              BlocListener<UserBloc, UserState>(listener: (context, state) {
+              BlocListener<UserBloc, UserState>(listener: (context, state) async {
                 if (state is LoginFailed) {
                   showPlatformDialog(
                     context: context,
@@ -157,6 +170,7 @@ class _MainScreen extends State<MainScreen> {
                 if (state is LoginSuccess) {
                   setState(() {
                     _isLogin = false;
+                    _screenTitle = "Profile";
                   });
                 }
 
@@ -167,8 +181,12 @@ class _MainScreen extends State<MainScreen> {
                 }
 
                 if (state is LogoutSuccess) {
+                  _savedBiometricUser =
+                    await PreferenceUtil.get<RpUser?>(
+                        'biometric_user', (json) => RpUser.fromJson(json));
                   setState(() {
                     _isLogin = true;
+                    _screenTitle = "Login";
                   });
                 }
 
@@ -184,7 +202,9 @@ class _MainScreen extends State<MainScreen> {
                 const HomeScreen(),
                 !_isLogin ? const MyRiddleScreen() : const LoginScreen(),
                 !_isLogin ? const CompetitionScreen() : const LoginScreen(),
-                !_isLogin ? const ProfileScreen() : const LoginScreen()
+                !_isLogin
+                    ? const ProfileScreen()
+                    : LoginScreen(savedBiometricUser: _savedBiometricUser)
               ],
             ),
           )),

@@ -16,6 +16,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreen extends State<ProfileScreen> {
   RpUser? _savedUser;
+  String _rank = '-';
+  String _answeredRiddle = '0';
 
   @override
   void initState() {
@@ -31,6 +33,8 @@ class _ProfileScreen extends State<ProfileScreen> {
           if (state is UserDataExist) {
             setState(() {
               _savedUser = state.user;
+              _rank = state.rank;
+              _answeredRiddle = state.answeredRiddle;
             });
           }
         },
@@ -44,14 +48,14 @@ class _ProfileScreen extends State<ProfileScreen> {
                         title: "Email",
                         subTitle: _savedUser?.email ?? "-",
                         isSufficIconVisible: false),
-                    const SettingMenu(
+                    SettingMenu(
                         icon: Icons.palette_outlined,
                         title: "Contest Rank",
-                        subTitle: "-"),
-                    const SettingMenu(
+                        subTitle: _rank),
+                    SettingMenu(
                         icon: Icons.history,
                         title: "Answered Riddle",
-                        subTitle: "0 Riddles"),
+                        subTitle: "${_answeredRiddle} Riddles"),
                     InkWell(
                         onTap: () {
                           showPlatformDialog(
@@ -77,7 +81,6 @@ class _ProfileScreen extends State<ProfileScreen> {
                       ],
                     ),
                   );
-                          context.read<UserBloc>().add(FetchUserEvent());
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
