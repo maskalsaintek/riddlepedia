@@ -1,0 +1,16 @@
+{
+  "setting_title": "Pengaturan",
+  "faq": "Pertanyaan yang Sering Diajukan",
+  "about_us": "Tentang Kami",
+  "riddlepedia_version": "Informasi Riddlepedia Versi {version}",
+  "use_fingerprint": "Gunakan Sidik Jari untuk otentikasi biometrik",
+  "use_face_id": "Gunakan Face ID untuk otentikasi biometrik",
+  "biometric_activated": "Biometrik telah diaktifkan",
+  "information": "Informasi",
+  "biometric_auth_activated": "Otentikasi Biometrik telah Diaktifkan",
+  "login_with_biometric": "Masuk dengan sidik jari dan face id",
+  "biometric_login": "Masuk dengan Biometrik",
+  "indonesia": "Indonesia",
+  "english": "Inggris",
+  "choose_language": "Pilih Bahasa"
+}

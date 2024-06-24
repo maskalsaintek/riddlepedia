@@ -1,0 +1,16 @@
+{
+  "setting_title": "Setting",
+  "faq": "Frequently Asked Questions",
+  "about_us": "About Us",
+  "riddlepedia_version": "Riddlepedia Version {version} Information",
+  "use_fingerprint": "Use Fingerprint for biometric authentication",
+  "use_face_id": "Use Face ID for biometric authentication",
+  "biometric_activated": "Biometric has been activated",
+  "information": "Information",
+  "biometric_auth_activated": "Biometric Authentication is Activated",
+  "login_with_biometric": "Login with fingerprint and face id",
+  "biometric_login": "Biometric Login",
+  "indonesia": "Indonesia",
+  "english": "English",
+  "choose_language": "Choose Language"
+}

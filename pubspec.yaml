@@ -10,6 +10,9 @@ dependencies:
   bloc: ^8.1.4
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   flutter_bloc: ^8.1.5
   webview_flutter: ^4.7.0
   flutter_launcher_icons: ^0.13.1
@@ -24,7 +27,6 @@ dependencies:
   flutter_dialogs: ^3.0.0
   awesome_dialog: ^3.2.1
   flutter_easyloading: ^3.0.5
-  intl: ^0.17.0
   google_sign_in: ^6.2.1
   local_auth: ^2.2.0
 
@@ -53,3 +55,4 @@ flutter:
     - assets/image/cyborg.jpg
     - assets/image/facebook_logo.png
     - assets/image/google_logo.png
+    - lib/l10n/
