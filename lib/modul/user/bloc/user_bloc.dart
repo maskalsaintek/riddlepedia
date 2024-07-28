@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:riddlepedia/modul/user/model/user_model.dart';
 import 'package:riddlepedia/modul/user/profile/model/user_rank_model.dart';
+import 'package:riddlepedia/util/app_localizations.dart';
 import 'package:riddlepedia/util/preference_util.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -30,7 +31,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       } catch (e) {
         logger.e("Error Submit Login. Error: $e");
         emit(UserLoadingIsNotVisible());
-        emit(LoginFailed(error: "Invalid Email or Password"));
+        emit(LoginFailed(
+            error: AppLocalizations.instance
+                .translate("invalid_email_or_password")));
       }
     });
 
@@ -57,7 +60,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       } catch (e) {
         logger.e("Error Submit Login. Error: $e");
         emit(UserLoadingIsNotVisible());
-        emit(LoginFailed(error: "Invalid Email or Password"));
+        emit(LoginFailed(
+            error: AppLocalizations.instance
+                .translate("invalid_email_or_password")));
       }
     });
 
@@ -107,14 +112,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserLoadingIsVisible());
       try {
         RpUser? savedBiometricUser = await PreferenceUtil.get<RpUser?>(
-          'biometric_user', (json) => RpUser.fromJson(json));
+            'biometric_user', (json) => RpUser.fromJson(json));
         emit(UserLoadingIsNotVisible());
         await PreferenceUtil.save('user', savedBiometricUser);
         emit(LoginSuccess());
       } catch (e) {
         logger.e("Error Submit Login. Error: $e");
         emit(UserLoadingIsNotVisible());
-        emit(LoginFailed(error: "Invalid Email or Password"));
+        emit(LoginFailed(
+            error: AppLocalizations.instance
+                .translate("invalid_email_or_password")));
       }
     });
   }

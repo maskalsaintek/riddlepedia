@@ -15,6 +15,7 @@ import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:riddlepedia/widget/setting_menu_widget.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:riddlepedia/util/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
   final RpUser? savedUser;
@@ -46,7 +47,7 @@ class _SettingScreen extends State<SettingScreen> {
     return MaterialApp(
         home: Scaffold(
             appBar: RpAppBar(
-                title: AppLocalizations.of(context).translate('setting_title'),
+                title: AppLocalizations.instance.translate('setting_title'),
                 appBarType: RpAppBarType.back,
                 onClosePageButtonPressen: () {
                   if (Navigator.canPop(context)) {
@@ -62,32 +63,31 @@ class _SettingScreen extends State<SettingScreen> {
                       children: [
                         SettingMenu(
                             icon: Icons.language_outlined,
-                            title: AppLocalizations.of(context)
-                                .translate('choose_language'),
+                            title: AppLocalizations.instance.translate('choose_language'),
                             subTitle: _savedLocale == 'en' 
-                            ? AppLocalizations.of(context).translate('english') 
-                            : AppLocalizations.of(context).translate('indonesia'),
+                            ? AppLocalizations.instance.translate('english') 
+                            : AppLocalizations.instance.translate('indonesia'),
                             onPressed: () {
                               _showChooseLanguageActionSheet(context);
                             }),
                         if (widget.savedUser != null)
                           SettingMenu(
                               icon: Icons.fingerprint_outlined,
-                              title: AppLocalizations.of(context)
+                              title: AppLocalizations.instance
                                   .translate('biometric_login'),
                               subTitle: _isBiometricActivated
-                                  ? AppLocalizations.of(context)
+                                  ? AppLocalizations.instance
                                       .translate('biometric_auth_activated')
-                                  : AppLocalizations.of(context)
+                                  : AppLocalizations.instance
                                       .translate('login_with_biometric'),
                               onPressed: () async {
                                 if (_isBiometricActivated) {
                                   showPlatformDialog(
                                     context: context,
                                     builder: (context) => BasicDialogAlert(
-                                      title: Text(AppLocalizations.of(context)
+                                      title: Text(AppLocalizations.instance
                                           .translate('information')),
-                                      content: Text(AppLocalizations.of(context)
+                                      content: Text(AppLocalizations.instance
                                           .translate(
                                               'biometric_auth_activated')),
                                       actions: <Widget>[
@@ -110,17 +110,17 @@ class _SettingScreen extends State<SettingScreen> {
                                   if (availableBiometrics
                                       .contains(BiometricType.face)) {
                                     _startBioMetricAuth(
-                                        AppLocalizations.of(context)
+                                        AppLocalizations.instance
                                             .translate('use_face_id'));
                                   } else if (availableBiometrics
                                       .contains(BiometricType.fingerprint)) {
                                     _startBioMetricAuth(
-                                        AppLocalizations.of(context)
+                                        AppLocalizations.instance
                                             .translate('use_fingerprint'));
                                   }
                                 } else {
                                   _startBioMetricAuth(
-                                      AppLocalizations.of(context)
+                                      AppLocalizations.instance
                                           .translate('use_fingerprint'));
                                 }
                               }),
@@ -128,7 +128,7 @@ class _SettingScreen extends State<SettingScreen> {
                             icon: Icons.question_answer_outlined,
                             title: "FAQ",
                             subTitle:
-                                AppLocalizations.of(context).translate('faq'),
+                                AppLocalizations.instance.translate('faq'),
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -140,9 +140,9 @@ class _SettingScreen extends State<SettingScreen> {
                             }),
                         SettingMenu(
                             icon: Icons.info_outline,
-                            title: AppLocalizations.of(context)
+                            title: AppLocalizations.instance
                                 .translate('about_us'),
-                            subTitle: AppLocalizations.of(context)
+                            subTitle: AppLocalizations.instance
                                 .translate('riddlepedia_version')
                                 .replaceAll('{version}', '1.0'),
                             onPressed: () {
@@ -150,7 +150,7 @@ class _SettingScreen extends State<SettingScreen> {
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) => WebviewScreen(
-                                          title: AppLocalizations.of(context)
+                                          title: AppLocalizations.instance
                                               .translate('about_us'),
                                           url:
                                               "https://maskalsaintek.github.io/riddlepedia-about.github.io/")));
@@ -163,27 +163,33 @@ class _SettingScreen extends State<SettingScreen> {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
-        title: Text(AppLocalizations.of(context).translate('choose_language')),
+        title: Text(AppLocalizations.instance.translate('choose_language')),
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
-            onPressed: () {
+            onPressed: () async {
               context.read<SettingBloc>().add(LocaleChanged(Locale('en')));
               setState(() {
+                AppLocalizations(const Locale('en', '')).load();
                 _savedLocale = 'en';
               });
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString("savedLocale", "en");
               Navigator.pop(context);
             },
-            child: Text(AppLocalizations.of(context).translate('english')),
+            child: Text(AppLocalizations.instance.translate('english')),
           ),
           CupertinoActionSheetAction(
-            onPressed: () {
+            onPressed: () async {
               context.read<SettingBloc>().add(LocaleChanged(Locale('id')));
               setState(() {
+                AppLocalizations(const Locale('id', '')).load();
                 _savedLocale = 'id';
               });
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString("savedLocale", "id");
               Navigator.pop(context);
             },
-            child: Text(AppLocalizations.of(context).translate('indonesia')),
+            child: Text(AppLocalizations.instance.translate('indonesia')),
           )
         ],
       ),

@@ -14,6 +14,7 @@ import 'package:riddlepedia/core/extension/double.dart';
 import 'package:riddlepedia/modul/user/bloc/user_bloc.dart';
 import 'package:riddlepedia/modul/user/model/user_model.dart';
 import 'package:riddlepedia/modul/user/register/register_screen.dart';
+import 'package:riddlepedia/util/app_localizations.dart';
 import 'package:riddlepedia/util/md5_util.dart';
 import 'package:riddlepedia/widget/form_input_widget.dart';
 
@@ -54,7 +55,7 @@ class _LoginScreen extends State<LoginScreen> {
           children: [
             20.0.height,
             FormInput(
-              hint: "Enter your email",
+              hint: AppLocalizations.instance.translate("enter_your_email"),
               title: "Email",
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
@@ -63,21 +64,23 @@ class _LoginScreen extends State<LoginScreen> {
                     value.isNotEmpty &&
                     !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                         .hasMatch(value)) {
-                  return 'Invalid Email Address';
+                  return AppLocalizations.instance
+                      .translate("invalid_email_address");
                 }
                 return null;
               },
             ),
             20.0.height,
             FormInput(
-              hint: "Enter your password",
-              title: "Password",
+              hint: AppLocalizations.instance.translate("enter_your_password"),
+              title: AppLocalizations.instance.translate("password"),
               controller: _passwordController,
               keyboardType: TextInputType.emailAddress,
               isVisible: _passwordVisible,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Invalid Password';
+                  return AppLocalizations.instance
+                      .translate("invalid_password");
                 }
                 return null;
               },
@@ -98,7 +101,8 @@ class _LoginScreen extends State<LoginScreen> {
                     textStyle: const TextStyle(fontSize: 13),
                     foregroundColor: Colors.black87),
                 onPressed: () {},
-                child: const Text('Forgot password?'),
+                child: Text(
+                    AppLocalizations.instance.translate("forgot_password")),
               ),
             ),
             16.0.height,
@@ -114,8 +118,8 @@ class _LoginScreen extends State<LoginScreen> {
                         email: _emailController.text,
                         password: convertToMd5(_passwordController.text)));
                   },
-                  child: const Text("Log In",
-                      style: TextStyle(
+                  child: Text(AppLocalizations.instance.translate("log_in"),
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 14))),
@@ -137,33 +141,36 @@ class _LoginScreen extends State<LoginScreen> {
 
                       if (Platform.isIOS) {
                         if (availableBiometrics.contains(BiometricType.face)) {
-                          _startBioMetricAuth(
-                              "Use Face ID for biometric. authentication");
+                          _startBioMetricAuth(AppLocalizations.instance
+                              .translate("use_face_id_auth"));
                         } else if (availableBiometrics
                             .contains(BiometricType.fingerprint)) {
-                          _startBioMetricAuth(
-                              "Use Fingerprint for biometric. authentication");
+                          _startBioMetricAuth(AppLocalizations.instance
+                              .translate("use_fingerprint_auth"));
                         }
                       } else {
-                        _startBioMetricAuth(
-                            "Use Fingerprint for biometric. authentication");
+                        _startBioMetricAuth(AppLocalizations.instance
+                            .translate("use_fingerprint_auth"));
                       }
                     },
-                    label: const Text("Log With Biometric",
-                        style: TextStyle(
+                    label: Text(
+                        AppLocalizations.instance
+                            .translate("log_with_biometric"),
+                        style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 14))),
               ),
             22.0.height,
-            const Row(
+            Row(
               children: [
-                Expanded(child: Divider(thickness: 1)),
+                const Expanded(child: Divider(thickness: 1)),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Text("Or Login with",
-                        style: TextStyle(color: Colors.black54))),
-                Expanded(child: Divider(thickness: 1)),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                        AppLocalizations.instance.translate("or_login_with"),
+                        style: const TextStyle(color: Colors.black54))),
+                const Expanded(child: Divider(thickness: 1)),
               ],
             ),
             22.0.height,
@@ -190,7 +197,8 @@ class _LoginScreen extends State<LoginScreen> {
                           fields: "name,email",
                         );
                         EasyLoading.show(
-                            status: 'Loading...',
+                            status: AppLocalizations.instance
+                                .translate('loading...'),
                             maskType: EasyLoadingMaskType.black);
                         logger.d('userData = ${userData['id']}');
                         context.read<UserBloc>().add(SubmitLoginFacebookEvent(
@@ -249,7 +257,8 @@ class _LoginScreen extends State<LoginScreen> {
                         }
 
                         EasyLoading.show(
-                            status: 'Loading...',
+                            status: AppLocalizations.instance
+                                .translate("loading..."),
                             maskType: EasyLoadingMaskType.black);
                         context.read<UserBloc>().add(SubmitLoginFacebookEvent(
                             email: googleUser!.email,
@@ -286,7 +295,8 @@ class _LoginScreen extends State<LoginScreen> {
                     textStyle: const TextStyle(fontSize: 13),
                     foregroundColor: Colors.black87),
                 onPressed: () {},
-                child: const Text("Doesn't have an account yet?"),
+                child: Text(AppLocalizations.instance
+                    .translate("doesnt_have_account_yet")),
               ),
             ),
             Container(
@@ -303,8 +313,8 @@ class _LoginScreen extends State<LoginScreen> {
                       builder: (context) => const RegisterScreen(),
                     ));
                   },
-                  child: const Text("Register",
-                      style: TextStyle(
+                  child: Text(AppLocalizations.instance.translate("register"),
+                      style: const TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.w700,
                           fontSize: 16))),

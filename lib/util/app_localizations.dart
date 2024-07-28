@@ -4,13 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalizations {
-  AppLocalizations(this.locale);
 
-  final Locale locale;
+  AppLocalizations._privateConstructor(this.locale);
 
-  static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  static final AppLocalizations _instance = AppLocalizations._privateConstructor(Locale('en', ''));
+
+  factory AppLocalizations(Locale locale) {
+    _instance.locale = locale;
+    return _instance;
   }
+
+  static AppLocalizations get instance => _instance;
+
+  late Locale locale;
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
@@ -58,4 +64,3 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
-

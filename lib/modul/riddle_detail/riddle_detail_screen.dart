@@ -12,6 +12,7 @@ import 'package:riddlepedia/constants/app_color.dart';
 import 'package:riddlepedia/core/extension/double.dart';
 import 'package:riddlepedia/modul/riddle_detail/bloc/riddle_detail_bloc.dart';
 import 'package:riddlepedia/modul/riddle_detail/model/riddle_detail_model.dart';
+import 'package:riddlepedia/util/app_localizations.dart';
 import 'package:riddlepedia/widget/appbar_widget.dart';
 import 'package:riddlepedia/widget/hint_dialog_widget.dart';
 import 'package:riddlepedia/widget/rp_button_widget.dart';
@@ -88,7 +89,7 @@ class _RiddleDetailScreen extends State<RiddleDetailScreen> {
                 actions: [
                   IconButton(
                     icon: const Icon(Icons.info_outline),
-                    tooltip: 'Hint',
+                    tooltip: AppLocalizations.instance.translate('hint'),
                     onPressed: () {
                       if (_hints.isEmpty) {
                         return;

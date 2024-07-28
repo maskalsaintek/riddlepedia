@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:riddlepedia/modul/competition/ranking/bloc/competition_ranking_bloc.dart';
 import 'package:riddlepedia/modul/competition/select_stage/bloc/competition_stage_bloc.dart';
-import 'package:riddlepedia/modul/home/bloc/bloc/home_bloc.dart';
+import 'package:riddlepedia/modul/home/bloc/home_bloc.dart';
 import 'package:riddlepedia/modul/my_riddle/bloc/my_riddle_bloc.dart';
 import 'package:riddlepedia/modul/my_riddle/create_riddle/bloc/create_riddle_bloc.dart';
 import 'package:riddlepedia/modul/riddle_detail/bloc/riddle_detail_bloc.dart';
